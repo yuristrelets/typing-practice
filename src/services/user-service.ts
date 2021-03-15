@@ -34,6 +34,12 @@ export default class UserService {
     return this.users;
   }
 
+  async getByCredentials(email: string, password: string): Promise<User | undefined> {
+    const users = await this.getAllUsers();
+
+    return users.find(u => u.email === email && u.password === password);
+  }
+
   getAvailableOperations(user: User, currenUser: User): Operation[] {
     // Вам нужно поменять логику внутри getAvailableOperations для того, что бы это работало с логином
     throw new Error("Not Implemented")
