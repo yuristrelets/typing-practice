@@ -2,9 +2,10 @@ import { Role } from "../entities/role";
 import { Admin } from "../entities/admin";
 import { Client } from "../entities/client";
 import { Moderator } from "../entities/moderator";
-import { Operation } from "../entities/operation";
 import type { User } from "../entities/user";
 import type { RoleToUser } from "../entities/role-to-user";
+import { AvailableOperations } from "../entities/available-operations";
+import type { RolesToAvailableOperations } from "../entities/available-operations";
 
 export default class UserService {
   private users: readonly User[] = [];
@@ -40,14 +41,8 @@ export default class UserService {
     return users.find(u => u.email === email && u.password === password);
   }
 
-  getAvailableOperations(user: User, currenUser: User): Operation[] {
-    // Вам нужно поменять логику внутри getAvailableOperations для того, что бы это работало с логином
-    throw new Error("Not Implemented")
-    // if (user instanceof Admin || user instanceof Client) {
-    //   return [Operation.UPDATE_TO_MODERATOR];
-    // }
-
-    // return [Operation.UPDATE_TO_CLIENT, Operation.UPDATE_TO_ADMIN];
+  getAvailableOperations<R1 extends Role, R2 extends Role>(user: User, currentUser: User): RolesToAvailableOperations[R1][R2] {
+    return AvailableOperations[currentUser.role][user.role];
   }
 
   getConstructorByRole(role: Role) {

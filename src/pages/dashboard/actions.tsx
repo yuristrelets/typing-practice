@@ -14,7 +14,7 @@ export default function Actions({ user, currentUser, onAction }: ActionsProps) {
   const operations = useOperations(user, currentUser);
   const menu = (
     <Menu>
-      {operations.map((operation, key) => (
+      {operations.length ? operations.map((operation: Operation, key: number) => (
         <Menu.Item
           key={key}
           icon={<UserOutlined />}
@@ -22,7 +22,11 @@ export default function Actions({ user, currentUser, onAction }: ActionsProps) {
         >
           {operation}
         </Menu.Item>
-      ))}
+      )) : (
+        <Menu.Item disabled>
+          No available operations
+        </Menu.Item>
+      )}
     </Menu>
   );
   return (
