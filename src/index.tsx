@@ -7,12 +7,16 @@ import ReactDOM from "react-dom";
 import Dashboard from "./pages/dashboard";
 import { Router } from "@reach/router";
 import { LogedInProvider } from "./providers/loged-in-user";
+import { protectRoute } from "./components/protect-route";
+import { hasAccessToDashboard } from "./entities/route-permissions";
+
+const ProtectedDashboard = protectRoute(Dashboard, hasAccessToDashboard);
 
 ReactDOM.render(
   <React.StrictMode>
     <LogedInProvider>
       <Router>
-        <Dashboard path="/" />
+        <ProtectedDashboard path="/" />
         <Login path="/login" />
         <NotFound default />
       </Router>
